@@ -41,7 +41,7 @@ export default {
       }
     }
     > .item.selected{
-      color: #41b883;
+      color: #2AAE67;
     }
   }
 </style>
