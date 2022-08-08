@@ -8,3 +8,15 @@ a{
   text-decoration: none;
   color: inherit;
 }
+
+ul, ol{
+  list-style: none;
+}
+
+button, input{
+  font: inherit;
+}
+
+:focus{
+  outline: none;
+}
