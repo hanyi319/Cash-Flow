@@ -33,7 +33,7 @@ export default {
     font-weight: bold;
     color: #2c3e50;
     > .item{
-      padding: 5px 0;
+      padding: 10px 0;
       width: 33.33333%;
       display: flex;
       flex-direction: column;
