@@ -16,20 +16,4 @@ body{
   font-size: 16;
   line-height: 1.5;
 }
-
-#app {
-}
-
-//nav {
-//  padding: 30px;
-//
-//  a {
-//    font-weight: bold;
-//    color: #2c3e50;
-//
-//    &.router-link-exact-active {
-//      color: #42b983;
-//    }
-//  }
-//}
 </style>

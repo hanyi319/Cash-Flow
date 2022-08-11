@@ -30,6 +30,8 @@ export default {
     display: flex;
     flex-direction: row;
     font-size: 12px;
+    font-weight: bold;
+    color: #2c3e50;
     > .item{
       padding: 5px 0;
       width: 33.33333%;
