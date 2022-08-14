@@ -22,30 +22,33 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import "~@/assets/style/helper.scss";
+@import "~@/assets/style/helper.scss";
 
-  nav{
-    @extend %outerShadow;
-    padding: 0;
+nav {
+  @extend %outerShadow;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  font-size: 12px;
+  font-weight: bold;
+  color: #2c3e50;
+
+  > .item {
+    padding: 10px 0;
+    width: 33.33333%;
     display: flex;
-    flex-direction: row;
-    font-size: 12px;
-    font-weight: bold;
-    color: #2c3e50;
-    > .item{
-      padding: 10px 0;
-      width: 33.33333%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      .icon{
-        width: 32px;
-        height: 32px;
-      }
-    }
-    > .item.selected{
-      color: $color-highlight;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .icon {
+      width: 32px;
+      height: 32px;
     }
   }
+
+  > .item.selected {
+    color: $color-highlight;
+  }
+}
 </style>
