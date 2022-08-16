@@ -46,7 +46,6 @@ export default class Money extends Vue {
     const record2: RecordItem = recordListModel.clone(this.record); // 深拷贝
     record2.createAt = new Date();
     this.recordList.push(record2);
-    console.log(this.recordList);
   }
 
   @Watch('recordList')
