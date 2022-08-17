@@ -37,13 +37,8 @@ export default class Tags extends Vue {
     if (name === '') {
       window.alert('标签名不能为空');
     } else if (this.dataSource && name) {
-      console.log(this.dataSource);
-
       tagListModel.create(name);
       let tagList = tagListModel.fetch();
-
-      console.log(tagList);
-
       this.$emit('update:dataSource', tagList);
     }
   }
