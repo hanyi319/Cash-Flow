@@ -21,6 +21,9 @@ type TagListModel = {
 };
 
 interface Window {
+  recordList: RecordItem[];
+  createRecord: (record: RecordItem) => void;
+
   tagList: Tag[];
   createTag: (name: string) => void;
   removeTag: (id: string) => boolean;
