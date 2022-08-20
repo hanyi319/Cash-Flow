@@ -1,12 +1,16 @@
 <template>
   <div class="tags">
-    <div class="new">
-      <button @click="createTag">新增标签</button>
-    </div>
     <ul class="current">
       <li v-for="tag in tagList" :key="tag.id" :class="{selected: selectedTags.indexOf(tag) >= 0}"
           @click="toggle(tag)">
-        {{ tag.name }}
+        <div class="tag-box">
+          {{ tag.name }}
+        </div>
+      </li>
+      <li>
+        <button class="new-tag" @click="createTag">
+          <Icon name="others"/>
+        </button>
       </li>
     </ul>
   </div>
@@ -47,43 +51,48 @@ export default class Tags extends mixins(TagHelper) {
 @import "~@/assets/style/helper.scss";
 
 .tags {
-  font-size: 14px;
-  padding: 16px;
-  flex-grow: 1;
+  order: 3;
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   background: #ffffff;
+  height: 10vh;
+  padding: 0 16px;
+  position: relative;
+  //flex-grow: 1;
 
   > .current {
+    order: 2;
     display: flex;
     flex-wrap: wrap;
+    overflow: auto;
 
     > li {
-      background: #d9d9d9;
-      $h: 24px;
-      height: $h;
-      line-height: $h;
-      border-radius: $h/2;
-      padding: 0 16px;
-      margin-right: 12px;
-      margin-top: 4px;
+      width: 25%;
+      margin-top: 10px;
+      display: flex;
+      justify-content: center;
+
+      .tag-box {
+        background: #d9d9d9;
+        height: 32px;
+        line-height: 30px;
+        font-size: 14px;
+        padding: 0 10px;
+        border-radius: 4px;
+        white-space: nowrap;
+      }
 
       &.selected {
-        background: $color-highlight;
-        color: #ffffff;
+        .tag-box {
+          background: $color-highlight;
+          color: #ffffff;
+        }
       }
     }
-  }
 
-  > .new {
-    padding-top: 16px;
-
-    button {
-      background: transparent;
-      border: none;
-      border-bottom: 1px solid;
-      color: #999999;
-      padding: 0 4px;
+    .new-tag{
+      width: 50px;
+      border-style: none;
     }
   }
 }

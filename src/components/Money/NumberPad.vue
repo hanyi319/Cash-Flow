@@ -1,6 +1,13 @@
 <template>
   <div class="numberPad">
-    <div class="output">{{ output || '&nbsp;' }}</div>
+    <div class="output">
+      <div>
+        <Icon name="rmb"/>
+      </div>
+      <div>
+        {{ output || '&nbsp;' }}
+      </div>
+    </div>
     <div class="buttons">
       <button @click="inputContent">1</button>
       <button @click="inputContent">2</button>
@@ -16,6 +23,9 @@
       <button @click="inputContent">8</button>
       <button @click="inputContent">9</button>
       <button @click="ok" class="ok">OK</button>
+      <button>
+        <Icon name="calculator"/>
+      </button>
       <button @click="inputContent" class="zero">0</button>
       <button @click="inputContent">.</button>
     </div>
@@ -70,15 +80,29 @@ export default class NumberPad extends Vue {
 @import "~@/assets/style/helper.scss";
 
 .numberPad {
+  order: 1;
+
   .output {
     @extend %clearFix;
     @extend %innerShadow;
     font-family: Consolas, monospace;
-    font-size: 36px;
+    font-size: 40px;
     font-weight: bold;
-    padding: 9px 16px;
-    text-align: right;
+    height: 72px;
+    line-height: 60px;
+    text-align: left;
     background: #ffffff;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-left: 40px;
+
+    .icon{
+      position: absolute;
+      top: 10px;
+      left: 1vh;
+      width: 30px;
+    }
   }
 
   .buttons {
@@ -90,7 +114,6 @@ export default class NumberPad extends Vue {
       height: 64px;
       border-radius: 10px;
       float: left;
-      //font-family: Consolas, monospace;
       font-size: 24px;
       font-weight: bold;
       background: #ffffff;
@@ -101,10 +124,6 @@ export default class NumberPad extends Vue {
         color: #ffffff;
         height: 64*2px;
         float: right;
-      }
-
-      &.zero {
-        width: 25*2%;
       }
     }
   }
