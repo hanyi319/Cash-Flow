@@ -1,9 +1,15 @@
+type RootState = {
+  recordList: RecordItem[];
+  tagList: Tag[];
+  currentTag?: Tag;
+};
+
 type RecordItem = {
   tags: string[];
   notes: string;
   type: string;
   amount: number;
-  createAt?: Date;
+  createAt?: string;
 };
 
 type Tag = {
