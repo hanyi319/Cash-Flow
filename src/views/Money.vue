@@ -4,10 +4,10 @@
       <Icon name="logo"/><span>&nbsp;开源节流</span>
     </div>
     <Tabs :data-source="recordTypeList" :value.sync="record.type"/>
-    <Tags/>
+    <Tags @update:value="record.tags = $event"/>
     <div class="notes-wrapper">
       <div class="note">
-        <FormItem field-name="备注：" placeholder="在这里输入备注" @update:value="onUpdateNotes"/>
+        <FormItem field-name="备注：" placeholder="在这里输入备注" :value.sync="record.notes"/>
       </div>
       <button @click="selectDate" class="date">
         <Icon name="date"/>
@@ -52,7 +52,14 @@ export default class Money extends Vue {
   }
 
   saveRecord() {
+    if(!this.record.tags || this.record.tags.length === 0) {
+      return window.alert('添加标签有助于筛选记录哦')
+    }
     this.$store.commit("createRecord", this.record);
+    if(this.$store.state.createRecordError === null) {
+      window.alert("记账成功");
+      this.record.notes = '';
+    }
   }
 
   selectDate() {
@@ -85,8 +92,8 @@ export default class Money extends Vue {
   }
 
   > .date{
-    width: 20vw;
-    margin-right: 16px;
+    width: 15vw;
+    margin: 0 16px;
     border-style: none;
     border-radius: 4px;
     background: #F1F1F1;
