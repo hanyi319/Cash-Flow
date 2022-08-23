@@ -7,7 +7,7 @@
     <Tags @update:value="record.tags = $event"/>
     <div class="notes-wrapper">
       <div class="note">
-        <FormItem field-name="备注：" placeholder="在这里输入备注" :value.sync="record.notes"/>
+        <FormItem field-name="备注" placeholder="在这里输入备注" :value.sync="record.notes"/>
       </div>
       <button @click="selectDate" class="date">
         <Icon name="date"/>
@@ -86,13 +86,18 @@ export default class Money extends Vue {
   justify-content: space-between;
 
   > .note{
+    width: 75vw;
     background: #F1F1F1;
     border-radius: 4px;
     margin-left: 16px;
+
+    ::v-deep input{
+      padding-right: 0;
+    }
   }
 
   > .date{
-    width: 15vw;
+    width: 25vw;
     margin: 0 16px;
     border-style: none;
     border-radius: 4px;

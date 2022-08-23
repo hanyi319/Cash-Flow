@@ -58,13 +58,13 @@ export default class Tags extends mixins(TagHelper) {
   height: 15vh;
   padding: 0 16px;
   position: relative;
-  //flex-grow: 1;
 
   > .current {
     order: 2;
     display: flex;
     flex-wrap: wrap;
     overflow: auto;
+    margin-right: -16px;
 
     > li {
       width: 25%;
@@ -74,12 +74,14 @@ export default class Tags extends mixins(TagHelper) {
 
       .tag-box {
         background: #F1F1F1;
+        width: 100%;
         height: 32px;
-        line-height: 30px;
+        line-height: 32px;
         font-size: 14px;
-        padding: 0 10px;
         border-radius: 4px;
         white-space: nowrap;
+        text-align: center;
+        margin-right: 16px;
       }
 
       &.selected {
@@ -91,7 +93,10 @@ export default class Tags extends mixins(TagHelper) {
     }
 
     .new-tag{
-      width: 48px;
+      width: calc(100% - 16px);
+      height: 32px;
+      margin-left: 0;
+      margin-right: 16px;
       border-style: none;
       border-radius: 4px;
       background: #F1F1F1;

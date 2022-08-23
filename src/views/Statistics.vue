@@ -13,8 +13,16 @@
         </ol>
       </li>
     </ol>
-    <div v-else class="noResult">
-      目前没有相关记录
+    <div v-else>
+      <div class="noResult">
+        <Icon name="no-result"/>
+        <span>点滴汇聚，以成江河</span>
+      </div>
+      <div class="createRecord-wrapper">
+        <router-link to="/money">
+          <Button class="createRecord" @click.native="createRecord">新增记账</Button>
+        </router-link>
+      </div>
     </div>
   </Layout>
 </template>
@@ -87,8 +95,37 @@ export default class Statistics extends Vue {
 
 <style lang="scss" scoped>
 .noResult{
-  padding: 16px;
-  text-align: center;
+  margin: 32px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  ::v-deep .icon{
+    width: 20vw;
+    height: 10vh;
+    color: grey;
+  }
+
+  span{
+    margin-top: 20px;
+    font-size: 20px;
+    color: grey;
+  }
+}
+
+.createRecord {
+  background: #2AAE67;
+  color: #ffffff;
+  border-radius: 4px;
+  border: none;
+  height: 40px;
+  padding: 0 16px;
+
+  &-wrapper {
+    text-align: center;
+    padding: 16px;
+  }
 }
 
 %item {

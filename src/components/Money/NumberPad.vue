@@ -100,12 +100,12 @@ export default class NumberPad extends Vue {
     display: flex;
     align-items: center;
     position: relative;
-    padding-left: 40px;
+    padding-left: 48px;
 
     .icon {
       position: absolute;
-      top: 10px;
-      left: 1vh;
+      top: 16px;
+      left: 16px;
       width: 30px;
     }
   }
