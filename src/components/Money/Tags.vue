@@ -55,7 +55,7 @@ export default class Tags extends mixins(TagHelper) {
   display: flex;
   flex-direction: column;
   background: #ffffff;
-  height: 10vh;
+  height: 15vh;
   padding: 0 16px;
   position: relative;
   //flex-grow: 1;
@@ -73,7 +73,7 @@ export default class Tags extends mixins(TagHelper) {
       justify-content: center;
 
       .tag-box {
-        background: #d9d9d9;
+        background: #F1F1F1;
         height: 32px;
         line-height: 30px;
         font-size: 14px;
@@ -91,8 +91,10 @@ export default class Tags extends mixins(TagHelper) {
     }
 
     .new-tag{
-      width: 50px;
+      width: 48px;
       border-style: none;
+      border-radius: 4px;
+      background: #F1F1F1;
     }
   }
 }

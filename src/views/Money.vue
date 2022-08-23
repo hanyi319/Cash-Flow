@@ -1,12 +1,17 @@
 <template>
   <Layout class-prefix="layout">
     <div class="summary">
-      <span>开源节流</span>
+      <Icon name="logo"/><span>&nbsp;开源节流</span>
     </div>
     <Tabs :data-source="recordTypeList" :value.sync="record.type"/>
     <Tags/>
-    <div class="notes">
-      <FormItem field-name="备注：" placeholder="在这里输入备注" @update:value="onUpdateNotes"/>
+    <div class="notes-wrapper">
+      <div class="note">
+        <FormItem field-name="备注：" placeholder="在这里输入备注" @update:value="onUpdateNotes"/>
+      </div>
+      <button @click="selectDate" class="date">
+        <Icon name="date"/>
+      </button>
     </div>
     <NumberPad @update:value="onUpdateAmount" @submit="saveRecord"/>
   </Layout>
@@ -49,6 +54,10 @@ export default class Money extends Vue {
   saveRecord() {
     this.$store.commit("createRecord", this.record);
   }
+
+  selectDate() {
+    window.alert('「选择日期」功能正在施工中，敬请期待')
+  }
 };
 </script>
 
@@ -62,9 +71,26 @@ export default class Money extends Vue {
   order: 4;
 }
 
-.notes {
+.notes-wrapper {
   order: 2;
   padding: 12px 0;
+  background: #ffffff;
+  display: flex;
+  justify-content: space-between;
+
+  > .note{
+    background: #F1F1F1;
+    border-radius: 4px;
+    margin-left: 16px;
+  }
+
+  > .date{
+    width: 20vw;
+    margin-right: 16px;
+    border-style: none;
+    border-radius: 4px;
+    background: #F1F1F1;
+  }
 }
 
 .summary {
@@ -72,7 +98,7 @@ export default class Money extends Vue {
   flex-grow: 1;
   background-color: #2AAE67;
   color: #ffffff;
-  font-size: 24px;
+  font-size: 30px;
   font-weight: bolder;
   border-radius: 10px;
   margin: 10px;

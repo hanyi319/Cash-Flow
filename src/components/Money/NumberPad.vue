@@ -23,7 +23,7 @@
       <button @click="inputContent">8</button>
       <button @click="inputContent">9</button>
       <button @click="ok" class="ok">OK</button>
-      <button>
+      <button @click="calculate">
         <Icon name="calculator"/>
       </button>
       <button @click="inputContent" class="zero">0</button>
@@ -69,10 +69,14 @@ export default class NumberPad extends Vue {
   }
 
   ok() {
-    const number = parseFloat(this.output)
+    const number = parseFloat(this.output);
     this.$emit('update:value', number);
     this.$emit('submit', number);
     this.output = '0';
+  }
+
+  calculate() {
+    window.alert('「计算器」功能正在施工中，敬请期待');
   }
 }
 </script>
@@ -98,7 +102,7 @@ export default class NumberPad extends Vue {
     position: relative;
     padding-left: 40px;
 
-    .icon{
+    .icon {
       position: absolute;
       top: 10px;
       left: 1vh;
