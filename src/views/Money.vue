@@ -5,13 +5,15 @@
     </div>
     <Tabs :data-source="recordTypeList" :value.sync="record.type"/>
     <Tags @update:value="record.tags = $event"/>
+    <div class="date-wrapper">
+      <div class="createdAt">
+        <FormItem field-name="日期" placeholder="在这里输入日期" type="date" :value.sync="record.createdAt"/>
+      </div>
+    </div>
     <div class="notes-wrapper">
       <div class="note">
         <FormItem field-name="备注" placeholder="在这里输入备注" :value.sync="record.notes"/>
       </div>
-      <button @click="selectDate" class="date">
-        <Icon name="date"/>
-      </button>
     </div>
     <NumberPad @update:value="onUpdateAmount" @submit="saveRecord"/>
   </Layout>
@@ -37,7 +39,7 @@ export default class Money extends Vue {
 
   recordTypeList = recordTypeList;
 
-  record: RecordItem = {tags: [], notes: '', type: '-', amount: 0};
+  record: RecordItem = {tags: [], notes: '', type: '-', amount: 0, createdAt: new Date().toISOString()};
 
   created() {
     this.$store.commit('fetchRecords');
@@ -80,28 +82,42 @@ export default class Money extends Vue {
 
 .notes-wrapper {
   order: 2;
-  padding: 12px 0;
+  padding: 12px 0 0 0;
   background: #ffffff;
   display: flex;
   justify-content: space-between;
 
   > .note{
-    width: 75vw;
+    width: 100vw;
     background: #F1F1F1;
     border-radius: 4px;
     margin-left: 16px;
+    margin-right: 16px;
+
 
     ::v-deep input{
       padding-right: 0;
     }
   }
+}
 
-  > .date{
-    width: 25vw;
-    margin: 0 16px;
-    border-style: none;
-    border-radius: 4px;
+.date-wrapper{
+  order: 2;
+  padding: 12px 0;
+  background: #ffffff;
+  display: flex;
+  justify-content: space-between;
+
+  > .createdAt{
+    width: 100vw;
     background: #F1F1F1;
+    border-radius: 4px;
+    margin-left: 16px;
+    margin-right: 16px;
+
+    ::v-deep input{
+      padding-right: 0;
+    }
   }
 }
 

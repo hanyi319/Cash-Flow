@@ -11,7 +11,7 @@ type RecordItem = {
   notes: string;
   type: string;
   amount: number;
-  createAt?: string;
+  createdAt?: string;
 };
 
 type Tag = {
