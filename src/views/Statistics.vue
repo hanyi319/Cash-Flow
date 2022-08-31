@@ -1,6 +1,9 @@
 <template>
   <Layout>
     <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
+    <v-chart class="chart" :option="option1"/>
+    <v-chart class="chart" :option="option2"/>
+    <Chart :options="option1"/>
     <ol v-if="groupedList.length>0">
       <li v-for="(group, index) in groupedList" :key="index">
         <h3 class="title">{{ beautify(group.title) }} <span>￥{{ group.total }}</span></h3>
@@ -34,11 +37,102 @@ import Tabs from '@/components/Tabs.vue';
 import recordTypeList from '@/constants/recordTypeList';
 import dayjs from 'dayjs';
 import clone from '@/lib/clone';
+import VChart, {THEME_KEY} from 'vue-echarts';
+import {use} from 'echarts/core';
+import {CanvasRenderer} from 'echarts/renderers';
+import {PieChart} from 'echarts/charts';
+import {BarChart} from 'echarts/charts';
+import {
+  TitleComponent,
+  TooltipComponent,
+  LegendComponent,
+  GridComponent
+} from 'echarts/components';
+import Chart from '@/components/Chart.vue'
+
+use([
+  CanvasRenderer,
+  PieChart,
+  BarChart,
+  TitleComponent,
+  TooltipComponent,
+  LegendComponent,
+  GridComponent
+]);
 
 @Component({
-  components: {Tabs},
+  components: {Tabs, VChart, Chart},
 })
 export default class Statistics extends Vue {
+  get option1() {
+    return {
+      title: {
+        text: '支出构成',
+        left: 'center'
+      },
+      tooltip: {
+        trigger: 'item',
+        formatter: '{a} <br/>{b} : {c} ({d}%)'
+      },
+      legend: {
+        orient: 'vertical',
+        left: 'left',
+        data: [
+          '衣',
+          '食',
+          '住',
+          '行',
+        ]
+      },
+      series: [
+        {
+          name: '金额',
+          type: 'pie',
+          radius: '55%',
+          center: ['50%', '60%'],
+          data: [
+            {value: 59, name: '衣'},
+            {value: 119, name: '食'},
+            {value: 1600, name: '住'},
+            {value: 200, name: '行'},
+          ],
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: 'rgba(0, 0, 0, 0.5)'
+            }
+          }
+        }
+      ]
+    };
+  }
+
+  get option2() {
+    return {
+      tooltip:{
+        show: true
+      },
+      xAxis: {
+        type: 'category',
+        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+      },
+      yAxis: {
+        type: 'value'
+      },
+      series: [
+        {
+          data: [120, 200, 150, 80, 70, 110, 130],
+          type: 'bar',
+          showBackground: true,
+          backgroundStyle: {
+            color: 'rgba(180, 180, 180, 0.2)'
+          }
+        }
+      ]
+    }
+  }
+
   get recordList() {
     return (this.$store.state as RootState).recordList;
   }
@@ -72,7 +166,7 @@ export default class Statistics extends Vue {
   recordTypeList = recordTypeList;
 
   tagString(tags: Tag[]) {
-    return tags.length === 0 ? '无' : tags.map(t=>t.name).join('、');
+    return tags.length === 0 ? '无' : tags.map(t => t.name).join('、');
   }
 
   beautify(string: string) {
@@ -94,20 +188,25 @@ export default class Statistics extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.noResult{
+.chart {
+  max-width: 100%;
+  height: 400px;
+}
+
+.noResult {
   margin: 32px 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 
-  ::v-deep .icon{
+  ::v-deep .icon {
     width: 20vw;
     height: 10vh;
     color: grey;
   }
 
-  span{
+  span {
     margin-top: 20px;
     font-size: 20px;
     color: grey;
