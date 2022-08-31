@@ -1,5 +1,9 @@
 <template>
-  <div class="wrapper" ref="wrapper">chart</div>
+  <div class="chart-wrapper">
+    <div class="wrapper" :class="classPrefix && `${classPrefix}-content`" ref="wrapper">
+      chart
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -11,15 +15,13 @@ import {EChartsCoreOption} from 'echarts';
 @Component
 export default class Chart extends Vue {
   @Prop() options?: EChartsCoreOption;
+  @Prop() classPrefix: any;
 
   mounted() {
     if (this.options === undefined) {
       return console.error('options 为空');
     }
-    console.log(echarts);
-    console.log(this.options);
     const chart = echarts.init(this.$refs.wrapper as HTMLDivElement);
-    console.log(chart)
     chart.setOption(this.options);
   }
 }
@@ -28,5 +30,12 @@ export default class Chart extends Vue {
 <style lang="scss" scoped>
 .wrapper {
   height: 400px;
+}
+
+.chart-wrapper{
+  overflow: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 </style>

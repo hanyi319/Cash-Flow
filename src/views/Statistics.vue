@@ -1,9 +1,10 @@
 <template>
   <Layout>
     <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
-    <v-chart class="chart" :option="option1"/>
-    <v-chart class="chart" :option="option2"/>
-    <Chart :options="option1"/>
+    <div ref="chartWrapper">
+      <Chart class-prefix="chart" :options="option1"/>
+    </div>
+    <Chart :options="option2"/>
     <ol v-if="groupedList.length>0">
       <li v-for="(group, index) in groupedList" :key="index">
         <h3 class="title">{{ beautify(group.title) }} <span>￥{{ group.total }}</span></h3>
@@ -48,7 +49,7 @@ import {
   LegendComponent,
   GridComponent
 } from 'echarts/components';
-import Chart from '@/components/Chart.vue'
+import Chart from '@/components/Chart.vue';
 
 use([
   CanvasRenderer,
@@ -65,6 +66,44 @@ use([
 })
 export default class Statistics extends Vue {
   get option1() {
+    return {
+      title: {
+        text: '支出趋势',
+        left: 'center'
+      },
+      tooltip: {
+        show: true,
+        formatter: '{b}日<br/>￥{c}',
+        position: 'top'
+      },
+      grid: {
+        left: 48,
+        top: 48,
+        right: 16,
+        bottom: 32
+      },
+      xAxis: {
+        type: 'category',
+        data: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'],
+        axisTick: {alignWithLabel: true},
+        axisLine: {lineStyle: {color: '#666'}}
+      },
+      yAxis: {
+        type: 'value'
+      },
+      series: [
+        {
+          symbolSize: 15,
+          itemStyle: {color: '#42b883'},
+          data: [820, 932, 901, 934, 1290, 1330, 1320, 820, 932, 901, 934, 1290, 1330, 1320, 820, 932, 901, 934, 1290, 1330, 1320, 820, 932, 901, 934, 1290, 1330, 1320, 820, 932, 1],
+          type: 'line',
+          smooth: true
+        }
+      ]
+    };
+  }
+
+  get option2() {
     return {
       title: {
         text: '支出构成',
@@ -108,31 +147,6 @@ export default class Statistics extends Vue {
     };
   }
 
-  get option2() {
-    return {
-      tooltip:{
-        show: true
-      },
-      xAxis: {
-        type: 'category',
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-      },
-      yAxis: {
-        type: 'value'
-      },
-      series: [
-        {
-          data: [120, 200, 150, 80, 70, 110, 130],
-          type: 'bar',
-          showBackground: true,
-          backgroundStyle: {
-            color: 'rgba(180, 180, 180, 0.2)'
-          }
-        }
-      ]
-    }
-  }
-
   get recordList() {
     return (this.$store.state as RootState).recordList;
   }
@@ -160,6 +174,17 @@ export default class Statistics extends Vue {
 
   beforeCreate() {
     this.$store.commit('fetchRecords');
+  }
+
+  mounted() {
+    let div = (this.$refs.chartWrapper as HTMLDivElement);
+    div.scrollLeft = 10;
+    // div.scrollLeft = div.scrollWidth;
+    console.log('div');
+    console.log(div);
+    console.log('div.scrollLeft');
+    console.log(div.scrollLeft);
+    // console.log(div.scrollWidth);
   }
 
   type = '-';
@@ -248,5 +273,9 @@ export default class Statistics extends Vue {
 .record {
   @extend %item;
   background: #ffffff;
+}
+
+::v-deep .chart-content {
+  width: 400%;
 }
 </style>
