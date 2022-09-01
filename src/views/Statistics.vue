@@ -2,7 +2,7 @@
   <Layout>
     <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
     <div class="chart-wrapper" ref="chartWrapper">
-      <Chart class-prefix="chart" :options="option1"/>
+      <Chart class-prefix="chart" :options="lineChartOption"/>
     </div>
     <Chart :options="option2"/>
     <ol v-if="groupedList.length>0">
@@ -67,18 +67,18 @@ use([
   components: {Tabs, VChart, Chart},
 })
 export default class Statistics extends Vue {
-  get chartData() {
+  get keyValueList() {
     const today = new Date();
     const array = [];
     for (let i = 0; i <= 29; i++) {
       const dateString = day(today).subtract(i, 'day').format('YYYY-MM-DD');
       const found = _.find(this.recordList, {createdAt: dateString});
-      array.push({date: dateString, value: found ? found.amount : 0});
+      array.push({key: dateString, value: found ? found.amount : 0});
     }
     array.sort((a, b) => {
-      if(a.date > b.date) {
+      if(a.key > b.key) {
         return 1
-      } else if(a.date === b.date) {
+      } else if(a.key === b.key) {
         return 0;
       } else {
         return -1;
@@ -87,10 +87,10 @@ export default class Statistics extends Vue {
     return array;
   }
 
-  get option1() {
-    const keys = this.chartData.map(item => item.date);
-    const values = this.chartData.map(item => item.value);
-    console.log(this.chartData);
+  get lineChartOption() {
+    const keys = this.keyValueList.map(item => item.key);
+    const values = this.keyValueList.map(item => item.value);
+    console.log(this.keyValueList);
     console.log(this.recordList.map(r => _.pick(r, ['createdAt', 'amount'])));
     return {
       title: {
@@ -112,7 +112,17 @@ export default class Statistics extends Vue {
         type: 'category',
         data: keys,
         axisTick: {alignWithLabel: true},
-        axisLine: {lineStyle: {color: '#666'}}
+        axisLine: {lineStyle: {color: '#666'}},
+        axisLabel: {
+          formatter: function (value: string, index: number) {
+            let date = new Date(value);
+            let texts = [(date.getMonth() + 1), date.getDate()];
+            if (index === 0) {
+              texts.unshift(date.getFullYear());
+            }
+            return texts.join('/');
+          }
+        }
       },
       yAxis: {
         type: 'value'
