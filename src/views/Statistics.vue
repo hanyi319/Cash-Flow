@@ -50,6 +50,8 @@ import {
   GridComponent
 } from 'echarts/components';
 import Chart from '@/components/Chart.vue';
+import _ from 'lodash';
+import day from 'dayjs';
 
 use([
   CanvasRenderer,
@@ -65,7 +67,31 @@ use([
   components: {Tabs, VChart, Chart},
 })
 export default class Statistics extends Vue {
+  get chartData() {
+    const today = new Date();
+    const array = [];
+    for (let i = 0; i <= 29; i++) {
+      const dateString = day(today).subtract(i, 'day').format('YYYY-MM-DD');
+      const found = _.find(this.recordList, {createdAt: dateString});
+      array.push({date: dateString, value: found ? found.amount : 0});
+    }
+    array.sort((a, b) => {
+      if(a.date > b.date) {
+        return 1
+      } else if(a.date === b.date) {
+        return 0;
+      } else {
+        return -1;
+      }
+    });
+    return array;
+  }
+
   get option1() {
+    const keys = this.chartData.map(item => item.date);
+    const values = this.chartData.map(item => item.value);
+    console.log(this.chartData);
+    console.log(this.recordList.map(r => _.pick(r, ['createdAt', 'amount'])));
     return {
       title: {
         text: '支出趋势',
@@ -84,7 +110,7 @@ export default class Statistics extends Vue {
       },
       xAxis: {
         type: 'category',
-        data: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'],
+        data: keys,
         axisTick: {alignWithLabel: true},
         axisLine: {lineStyle: {color: '#666'}}
       },
@@ -95,7 +121,7 @@ export default class Statistics extends Vue {
         {
           symbolSize: 15,
           itemStyle: {color: '#42b883'},
-          data: [820, 932, 901, 934, 1290, 1330, 1320, 820, 932, 901, 934, 1290, 1330, 1320, 820, 932, 901, 934, 1290, 1330, 1320, 820, 932, 901, 934, 1290, 1330, 1320, 820, 932, 1],
+          data: values,
           type: 'line',
           smooth: true
         }
@@ -273,8 +299,9 @@ export default class Statistics extends Vue {
   width: 400%;
 }
 
-.chart-wrapper{
+.chart-wrapper {
   overflow: auto;
+
   &::-webkit-scrollbar {
     display: none;
   }
