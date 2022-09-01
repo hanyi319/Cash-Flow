@@ -72,8 +72,8 @@ export default class Statistics extends Vue {
     const array = [];
     for (let i = 0; i <= 29; i++) {
       const dateString = day(today).subtract(i, 'day').format('YYYY-MM-DD');
-      const found = _.find(this.recordList, {createdAt: dateString});
-      array.push({key: dateString, value: found ? found.amount : 0});
+      const found = _.find(this.groupedList, {title: dateString});
+      array.push({key: dateString, value: found ? found.total : 0});
     }
     array.sort((a, b) => {
       if(a.key > b.key) {
@@ -90,8 +90,6 @@ export default class Statistics extends Vue {
   get lineChartOption() {
     const keys = this.keyValueList.map(item => item.key);
     const values = this.keyValueList.map(item => item.value);
-    console.log(this.keyValueList);
-    console.log(this.recordList.map(r => _.pick(r, ['createdAt', 'amount'])));
     return {
       title: {
         text: '支出趋势',
