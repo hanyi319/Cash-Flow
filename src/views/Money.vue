@@ -71,6 +71,8 @@ export default class Money extends Vue {
 </script>
 
 <style lang="scss" scoped>
+@import "~@/assets/style/helper.scss";
+
 ::v-deep .layout-content {
   display: flex;
   flex-direction: column-reverse;
@@ -124,7 +126,7 @@ export default class Money extends Vue {
 .summary {
   order: 5;
   flex-grow: 1;
-  background-color: #2AAE67;
+  background-color: $color-highlight;
   color: #ffffff;
   font-size: 30px;
   font-weight: bolder;

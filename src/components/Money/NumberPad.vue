@@ -23,9 +23,7 @@
       <button @click="inputContent">8</button>
       <button @click="inputContent">9</button>
       <button @click="ok" class="ok">OK</button>
-      <button @click="calculate">
-        <Icon name="calculator"/>
-      </button>
+      <button @click="calculate">( )</button>
       <button @click="inputContent" class="zero">0</button>
       <button @click="inputContent">.</button>
     </div>
@@ -125,7 +123,7 @@ export default class NumberPad extends Vue {
       border: 4px solid #f1f1f1;
 
       &.ok {
-        background: #2AAE67;
+        background: $color-highlight;
         color: #ffffff;
         height: 64*2px;
         float: right;

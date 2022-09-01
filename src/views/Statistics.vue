@@ -241,6 +241,8 @@ export default class Statistics extends Vue {
 </script>
 
 <style lang="scss" scoped>
+@import "~@/assets/style/helper.scss";
+
 .chart {
   max-width: 100%;
   height: 400px;
@@ -267,7 +269,7 @@ export default class Statistics extends Vue {
 }
 
 .createRecord {
-  background: #2AAE67;
+  background: $color-highlight;
   color: #ffffff;
   border-radius: 4px;
   border: none;

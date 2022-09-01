@@ -82,6 +82,7 @@ export default class Tags extends mixins(TagHelper) {
         white-space: nowrap;
         text-align: center;
         margin-right: 16px;
+        box-sizing: border-box;
       }
 
       &.selected {
