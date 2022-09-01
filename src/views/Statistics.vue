@@ -1,7 +1,7 @@
 <template>
   <Layout>
     <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
-    <div ref="chartWrapper">
+    <div class="chart-wrapper" ref="chartWrapper">
       <Chart class-prefix="chart" :options="option1"/>
     </div>
     <Chart :options="option2"/>
@@ -178,13 +178,7 @@ export default class Statistics extends Vue {
 
   mounted() {
     let div = (this.$refs.chartWrapper as HTMLDivElement);
-    div.scrollLeft = 10;
-    // div.scrollLeft = div.scrollWidth;
-    console.log('div');
-    console.log(div);
-    console.log('div.scrollLeft');
-    console.log(div.scrollLeft);
-    // console.log(div.scrollWidth);
+    div.scrollLeft = div.scrollWidth;
   }
 
   type = '-';
@@ -277,5 +271,12 @@ export default class Statistics extends Vue {
 
 ::v-deep .chart-content {
   width: 400%;
+}
+
+.chart-wrapper{
+  overflow: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 </style>

@@ -1,9 +1,7 @@
 <template>
-  <div class="chart-wrapper">
     <div class="wrapper" :class="classPrefix && `${classPrefix}-content`" ref="wrapper">
       chart
     </div>
-  </div>
 </template>
 
 <script lang="ts">
@@ -30,12 +28,5 @@ export default class Chart extends Vue {
 <style lang="scss" scoped>
 .wrapper {
   height: 400px;
-}
-
-.chart-wrapper{
-  overflow: auto;
-  &::-webkit-scrollbar {
-    display: none;
-  }
 }
 </style>
