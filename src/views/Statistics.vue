@@ -4,7 +4,7 @@
     <div class="chart-wrapper" ref="chartWrapper">
       <Chart class-prefix="chart" :options="lineChartOption"/>
     </div>
-    <Chart :options="option2"/>
+    <Chart :options="pieChartOption"/>
     <ol v-if="groupedList.length>0">
       <li v-for="(group, index) in groupedList" :key="index">
         <h3 class="title">{{ beautify(group.title) }} <span>￥{{ group.total }}</span></h3>
@@ -67,7 +67,8 @@ use([
   components: {Tabs, VChart, Chart},
 })
 export default class Statistics extends Vue {
-  get keyValueList() {
+  // 获取折线图最近一个月的支出数据
+  get lineKeyValueList() {
     const today = new Date();
     const array = [];
     for (let i = 0; i <= 29; i++) {
@@ -76,9 +77,9 @@ export default class Statistics extends Vue {
       array.push({key: dateString, value: found ? found.total : 0});
     }
     array.sort((a, b) => {
-      if(a.key > b.key) {
-        return 1
-      } else if(a.key === b.key) {
+      if (a.key > b.key) {
+        return 1;
+      } else if (a.key === b.key) {
         return 0;
       } else {
         return -1;
@@ -87,9 +88,10 @@ export default class Statistics extends Vue {
     return array;
   }
 
+  // 折线图配置选项
   get lineChartOption() {
-    const keys = this.keyValueList.map(item => item.key);
-    const values = this.keyValueList.map(item => item.value);
+    const keys = this.lineKeyValueList.map(item => item.key);
+    const values = this.lineKeyValueList.map(item => item.value);
     return {
       title: {
         text: '支出趋势',
@@ -137,45 +139,82 @@ export default class Statistics extends Vue {
     };
   }
 
-  get option2() {
+  // 获取饼图最近一个月的支出数据
+  get pieKeyValueList() {
+    // 用来存放标签以及对应的金额的哈希表和数组
+    const map = new Map();
+    const array:object[] = [];
+
+    // 到今天为止的最近一个月
+    const today = new Date();
+
+    for (let i = 0; i <= 29; i++) {
+
+      // 格式化时间字符串，以便根据时间字符串搜索该天对应的支出数据
+      const dateString = day(today).subtract(i, 'day').format('YYYY-MM-DD');
+      const found = _.find(this.groupedList, {title: dateString});
+
+      // 如果这一天不为空，那么就根据标签分门别类统计金额
+      if (found) {
+        for (let j = 0; j <= found.items.length; j++) {
+          if (found.items[j]) {
+            map.set(found.items[j].tags[0].name, found.items[j].amount);
+          }
+        }
+      }
+    }
+
+    // 遍历哈希表生成数组
+    function transform(value: number, key: string, map: object) {
+      let name = key;
+      array.push({value, name});
+    }
+    map.forEach(transform);
+
+    return array;
+  }
+
+  // 饼图配置选项
+  get pieChartOption() {
+    const array = this.pieKeyValueList;
+
+    console.log('array');
+    console.log(array);
+
     return {
-      title: {
-        text: '支出构成',
-        left: 'center'
-      },
       tooltip: {
-        trigger: 'item',
-        formatter: '{a} <br/>{b} : {c} ({d}%)'
+        trigger: 'item'
       },
       legend: {
-        orient: 'vertical',
-        left: 'left',
-        data: [
-          '衣',
-          '食',
-          '住',
-          '行',
-        ]
+        top: '5%',
+        left: 'center'
       },
       series: [
         {
-          name: '金额',
+          name: 'Access From',
           type: 'pie',
-          radius: '55%',
-          center: ['50%', '60%'],
-          data: [
-            {value: 59, name: '衣'},
-            {value: 119, name: '食'},
-            {value: 1600, name: '住'},
-            {value: 200, name: '行'},
-          ],
+          radius: ['40%', '70%'],
+          avoidLabelOverlap: false,
+          itemStyle: {
+            borderRadius: 10,
+            borderColor: '#fff',
+            borderWidth: 2
+          },
+          label: {
+            show: false,
+            position: 'center'
+          },
           emphasis: {
-            itemStyle: {
-              shadowBlur: 10,
-              shadowOffsetX: 0,
-              shadowColor: 'rgba(0, 0, 0, 0.5)'
+            label: {
+              show: true,
+              fontSize: '40',
+              fontWeight: 'bold'
             }
-          }
+          },
+          labelLine: {
+            show: false
+          },
+          data: array
         }
       ]
     };
