@@ -54,8 +54,8 @@ export default class Tags extends mixins(TagHelper) {
   order: 3;
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
   background: #ffffff;
-  height: 15vh;
   padding: 0 16px;
   position: relative;
 

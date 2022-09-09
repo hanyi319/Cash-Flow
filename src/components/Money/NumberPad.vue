@@ -9,6 +9,10 @@
       </div>
     </div>
     <div class="buttons">
+      <button @click="inputContent">+</button>
+      <button @click="inputContent">-</button>
+      <button @click="inputContent">×</button>
+      <button @click="inputContent">÷</button>
       <button @click="inputContent">1</button>
       <button @click="inputContent">2</button>
       <button @click="inputContent">3</button>
@@ -23,7 +27,7 @@
       <button @click="inputContent">8</button>
       <button @click="inputContent">9</button>
       <button @click="ok" class="ok">OK</button>
-      <button @click="calculate">( )</button>
+      <button @click="inputContent">()</button>
       <button @click="inputContent" class="zero">0</button>
       <button @click="inputContent">.</button>
     </div>
@@ -71,10 +75,6 @@ export default class NumberPad extends Vue {
     this.$emit('update:value', number);
     this.$emit('submit', number);
     this.output = '0';
-  }
-
-  calculate() {
-    window.alert('「计算器」功能正在施工中，敬请期待');
   }
 }
 </script>

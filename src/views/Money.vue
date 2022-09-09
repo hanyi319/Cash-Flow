@@ -1,8 +1,8 @@
 <template>
   <Layout class-prefix="layout">
-    <div class="summary">
-      <Icon name="logo"/><span>&nbsp;开源节流</span>
-    </div>
+<!--    <div class="summary">-->
+<!--      <Icon name="logo"/><span>&nbsp;开源节流</span>-->
+<!--    </div>-->
     <Tabs :data-source="recordTypeList" :value.sync="record.type"/>
     <Tags @update:value="record.tags = $event"/>
     <div class="date-wrapper">
