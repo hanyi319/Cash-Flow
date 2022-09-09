@@ -5,6 +5,7 @@
       <Chart class-prefix="chart" :options="lineChartOption"/>
     </div>
     <Chart :options="pieChartOption"/>
+    <Chart :options="barChartOption"/>
     <ol v-if="groupedList.length>0">
       <li v-for="(group, index) in groupedList" :key="index">
         <h3 class="title">{{ beautify(group.title) }} <span>￥{{ group.total }}</span></h3>
@@ -143,7 +144,7 @@ export default class Statistics extends Vue {
   get pieKeyValueList() {
     // 用来存放标签以及对应的金额的哈希表和数组
     const map = new Map();
-    const array:object[] = [];
+    const array: object[] = [];
 
     // 到今天为止的最近一个月
     const today = new Date();
@@ -169,6 +170,7 @@ export default class Statistics extends Vue {
       let name = key;
       array.push({value, name});
     }
+
     map.forEach(transform);
 
     return array;
@@ -177,9 +179,6 @@ export default class Statistics extends Vue {
   // 饼图配置选项
   get pieChartOption() {
     const array = this.pieKeyValueList;
-
-    console.log('array');
-    console.log(array);
 
     return {
       tooltip: {
@@ -191,7 +190,7 @@ export default class Statistics extends Vue {
       },
       series: [
         {
-          name: 'Access From',
+          name: '金额',
           type: 'pie',
           radius: ['40%', '70%'],
           avoidLabelOverlap: false,
@@ -218,6 +217,71 @@ export default class Statistics extends Vue {
         }
       ]
     };
+  }
+
+  // 获取柱状图最近12个月的支出数据
+  get barKeyValueList() {
+    // 用来存放标签以及对应的金额的哈希表和数组
+    const map = new Map();
+    const arrayX:string[] = [];
+    const arrayY:number[] = [];
+    const array = [];
+
+    const today = new Date();
+    // 不考虑闰月，直接用 12 * 31 天代替一年
+    for (let i = 0; i <= 11; i++) {
+      for (let j = i * 31; j <= (i + 1) * 31; j++) {
+        // 格式化时间字符串，以便根据时间字符串搜索该天对应的支出数据
+        const dateString = day(today).subtract(j, 'day').format('YYYY-MM-DD');
+        const found = _.find(this.groupedList, {title: dateString});
+        const foundDate = found?.title.substring(0, 7);
+
+        // 如果这一天不为空，那么就根据月份统计金额
+        if (found && found.total !== 0) {
+          if(!map.has(foundDate)) {
+            map.set(foundDate, 0);
+          }
+          let temp = map.get(foundDate);
+          temp += found.total;
+          map.set(foundDate, temp);
+
+          console.log('map');
+          console.log(map);
+        }
+      }
+    }
+
+    // 遍历哈希表，数据过滤，返回一个二维数组
+    function transform(value: number, key: string, map: object) {
+      arrayX.push(key);
+      arrayY.push(value);
+    }
+    map.forEach(transform);
+    array[0] = arrayX;
+    array[1] = arrayY;
+
+    return array;
+  }
+
+  // 柱状图配置选项
+  get barChartOption() {
+    const array = this.barKeyValueList;
+
+    return {
+      xAxis: {
+        type: 'category',
+        data: array[0]
+      },
+      yAxis: {
+        type: 'value'
+      },
+      series: [
+        {
+          data: array[1],
+          type: 'bar'
+        }
+      ]
+    }
   }
 
   get recordList() {
