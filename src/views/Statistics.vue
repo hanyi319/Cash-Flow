@@ -1,34 +1,10 @@
 <template>
   <Layout>
-    <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
     <div class="chart-wrapper" ref="chartWrapper">
       <Chart class-prefix="chart" :options="lineChartOption"/>
     </div>
     <Chart :options="pieChartOption"/>
     <Chart :options="barChartOption"/>
-    <ol v-if="groupedList.length>0">
-      <li v-for="(group, index) in groupedList" :key="index">
-        <h3 class="title">{{ beautify(group.title) }} <span>￥{{ group.total }}</span></h3>
-        <ol>
-          <li v-for="item in group.items" :key="item.id" class="record">
-            <span>{{ tagString(item.tags) }}</span>
-            <span class="trade-notes">{{ item.notes }}</span>
-            <span>￥{{ item.amount }} </span>
-          </li>
-        </ol>
-      </li>
-    </ol>
-    <div v-else>
-      <div class="noResult">
-        <Icon name="no-result"/>
-        <span>点滴汇聚，以成江河</span>
-      </div>
-      <div class="createRecord-wrapper">
-        <router-link to="/money">
-          <Button class="createRecord" @click.native="createRecord">新增记账</Button>
-        </router-link>
-      </div>
-    </div>
   </Layout>
 </template>
 
@@ -320,26 +296,6 @@ export default class Statistics extends Vue {
 
   type = '-';
   recordTypeList = recordTypeList;
-
-  tagString(tags: Tag[]) {
-    return tags.length === 0 ? '无' : tags.map(t => t.name).join('、');
-  }
-
-  beautify(string: string) {
-    const day = dayjs(string);
-    const now = dayjs();
-    if (day.isSame(now, 'day')) {
-      return '今天';
-    } else if (day.isSame(now.subtract(1, 'day'), 'day')) {
-      return '昨天';
-    } else if (day.isSame(now.subtract(2, 'day'), 'day')) {
-      return '前天';
-    } else if (day.isSame(now, 'year')) {
-      return day.format('M月D日');
-    } else {
-      return day.format('YYYY年M月D日');
-    }
-  }
 };
 </script>
 
@@ -349,63 +305,6 @@ export default class Statistics extends Vue {
 .chart {
   max-width: 100%;
   height: 400px;
-}
-
-.noResult {
-  margin: 32px 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  ::v-deep .icon {
-    width: 20vw;
-    height: 10vh;
-    color: grey;
-  }
-
-  span {
-    margin-top: 20px;
-    font-size: 20px;
-    color: grey;
-  }
-}
-
-.createRecord {
-  background: $color-highlight;
-  color: #ffffff;
-  border-radius: 4px;
-  border: none;
-  height: 40px;
-  padding: 0 16px;
-
-  &-wrapper {
-    text-align: center;
-    padding: 16px;
-  }
-}
-
-%item {
-  padding: 8px 16px;
-  line-height: 24px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.title {
-  @extend %item;
-}
-
-.trade-notes {
-  margin-right: auto;
-  margin-left: 16px;
-  color: #999;
-}
-
-.record {
-  @extend %item;
-  background: #ffffff;
 }
 
 ::v-deep .chart-content {
