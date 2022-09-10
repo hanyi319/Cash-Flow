@@ -1,10 +1,20 @@
 <template>
   <Layout>
-    <div class="chart-wrapper" ref="chartWrapper">
-      <Chart class-prefix="chart" :options="lineChartOption"/>
+    <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
+    <div class="chartBox">
+      <span>支出趋势</span>
+      <div class="chart-wrapper" ref="chartWrapper">
+        <Chart class-prefix="chart" :options="lineChartOption"/>
+      </div>
     </div>
-    <Chart :options="pieChartOption"/>
-    <Chart :options="barChartOption"/>
+    <div class="chartBox">
+      <span>支出构成</span>
+      <Chart :options="pieChartOption"/>
+    </div>
+    <div class="chartBox">
+      <span>支出对比</span>
+      <Chart :options="barChartOption"/>
+    </div>
   </Layout>
 </template>
 
@@ -71,7 +81,6 @@ export default class Statistics extends Vue {
     const values = this.lineKeyValueList.map(item => item.value);
     return {
       title: {
-        text: '支出趋势',
         left: 'center'
       },
       tooltip: {
@@ -189,6 +198,7 @@ export default class Statistics extends Vue {
           labelLine: {
             show: false
           },
+          top: 50,
           data: array
         }
       ]
@@ -246,10 +256,17 @@ export default class Statistics extends Vue {
     return {
       xAxis: {
         type: 'category',
-        data: array[0]
+        data: array[0],
+        inverse: true
       },
       yAxis: {
         type: 'value'
+      },
+      grid: {
+        left: 48,
+        top: 48,
+        right: 16,
+        bottom: 32
       },
       series: [
         {
@@ -301,6 +318,19 @@ export default class Statistics extends Vue {
 
 <style lang="scss" scoped>
 @import "~@/assets/style/helper.scss";
+.chartBox {
+  background: #ffffff;
+  margin: 16px 0;
+  border-radius: 4px;
+  text-align: center;
+  padding-top: 16px;
+
+  span {
+    font-size: 24px;
+    font-weight: bold;
+
+  }
+}
 
 .chart {
   max-width: 100%;
@@ -308,7 +338,7 @@ export default class Statistics extends Vue {
 }
 
 ::v-deep .chart-content {
-  width: 400%;
+  width: 415%;
 }
 
 .chart-wrapper {
