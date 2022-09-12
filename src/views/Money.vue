@@ -1,8 +1,5 @@
 <template>
   <Layout class-prefix="layout">
-<!--    <div class="summary">-->
-<!--      <Icon name="logo"/><span>&nbsp;开源节流</span>-->
-<!--    </div>-->
     <Tabs :data-source="recordTypeList" :value.sync="record.type"/>
     <Tags @update:value="record.tags = $event"/>
     <div class="date-wrapper">
@@ -62,10 +59,6 @@ export default class Money extends Vue {
       window.alert("记账成功");
       this.record.notes = '';
     }
-  }
-
-  selectDate() {
-    window.alert('「选择日期」功能正在施工中，敬请期待')
   }
 };
 </script>

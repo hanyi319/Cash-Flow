@@ -40,6 +40,9 @@ export default class Tags extends mixins(TagHelper) {
     if (index >= 0) {
       this.selectedTags.splice(index, 1);
     } else {
+      if (this.selectedTags.length >= 1) {
+        this.selectedTags = [];
+      }
       this.selectedTags.push(tag);
     }
     this.$emit('update:value', this.selectedTags);
@@ -93,7 +96,7 @@ export default class Tags extends mixins(TagHelper) {
       }
     }
 
-    .new-tag{
+    .new-tag {
       width: calc(100% - 16px);
       height: 32px;
       margin-left: 0;
