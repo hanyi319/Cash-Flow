@@ -4,17 +4,14 @@
     <Tags @update:value="record.tags = $event" />
     <div class="notes-wrapper">
       <div class="note">
-        <FormItem field-name="备注" placeholder="在这里输入备注" :value.sync="record.notes" />
+        <Icon name="remark" />
+        <FormItem placeholder="在这里输入备注" :value.sync="record.notes" />
       </div>
     </div>
     <div class="date-wrapper">
       <div class="createdAt">
-        <FormItem
-          field-name="日期"
-          placeholder="在这里输入日期"
-          type="date"
-          :value.sync="record.createdAt"
-        />
+        <Icon name="date" />
+        <FormItem placeholder="在这里输入日期" type="date" :value.sync="record.createdAt" />
       </div>
     </div>
     <NumberPad @update:value="onUpdateAmount" @submit="saveRecord" />
@@ -83,14 +80,21 @@ export default class Money extends Vue {
   order: 3;
   display: flex;
   justify-content: space-between;
+  padding: 0 8px;
   background: var(--bg-color-grey);
 
   > .createdAt {
+    display: flex;
+    align-items: center;
     width: 100vw;
-    margin-left: 8px;
-    margin-right: 8px;
+    padding-left: 16px;
     border-radius: var(--border-radius) var(--border-radius) 0 0;
     background: var(--bg-color-white);
+
+    > svg {
+      width: 24px;
+      height: 24px;
+    }
 
     ::v-deep input {
       padding-right: 0;
@@ -102,13 +106,20 @@ export default class Money extends Vue {
   order: 4;
   display: flex;
   justify-content: space-between;
+  padding: 0 8px;
   background: var(--bg-color-grey);
 
   > .note {
+    display: flex;
+    align-items: center;
     width: 100vw;
-    margin-left: 8px;
-    margin-right: 8px;
+    padding-left: 16px;
     background: var(--bg-color-white);
+
+    > svg {
+      width: 24px;
+      height: 24px;
+    }
 
     ::v-deep input {
       padding-right: 0;

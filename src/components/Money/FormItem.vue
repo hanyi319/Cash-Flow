@@ -1,7 +1,6 @@
 <template>
   <div>
-    <label class="formItem">
-      <span class="name">{{ this.fieldName }}</span>
+    <label>
       <template v-if="type === 'date'">
         <input
           :type="type || 'text'"
@@ -45,24 +44,16 @@ export default class FormItem extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.formItem {
+input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  height: 48px;
   font-size: 18px;
   padding-left: 16px;
-  display: flex;
-  align-items: center;
-
-  .name {
-    padding-right: 16px;
-  }
-
-  input {
-    flex-grow: 1;
-    height: 48px;
-    padding-right: 16px;
-    font-weight: bold;
-    border: none;
-    background: transparent;
-    caret-color: var(--theme-color-blue);
-  }
+  border: none;
+  background: transparent;
+  caret-color: var(--theme-color-blue);
 }
 </style>

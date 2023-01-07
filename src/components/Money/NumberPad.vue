@@ -5,7 +5,7 @@
       <button @click="inputContent">1</button>
       <button @click="inputContent">2</button>
       <button @click="inputContent">3</button>
-      <button @click="remove">
+      <button @click="remove" class="delete">
         <Icon name="delete" />
       </button>
       <button @click="inputContent">4</button>
@@ -15,7 +15,9 @@
       <button @click="inputContent">7</button>
       <button @click="inputContent">8</button>
       <button @click="inputContent">9</button>
-      <button @click="ok" class="ok">OK</button>
+      <button @click="ok" class="ok">
+        <Icon name="ok" />
+      </button>
       <button @click="inputContent" class="zero">0</button>
       <button @click="inputContent">.</button>
     </div>
@@ -89,6 +91,7 @@ export default class NumberPad extends Vue {
     font-weight: bold;
     border: 4px solid var(--inputPad-button-border);
     border-radius: 0 0 var(--border-radius) var(--border-radius);
+    color: var(--theme-color-blue);
     background: var(--bg-color-white);
   }
 
@@ -108,11 +111,27 @@ export default class NumberPad extends Vue {
       background: var(--numberPad-button-bg);
       transition: transform 0.2s cubic-bezier(0.68, 0.01, 0.62, 0.6), opacity 0.08s linear;
 
+      &.delete {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        > svg {
+          width: 30px;
+          height: 30px;
+        }
+      }
+
       &.ok {
         float: right;
         height: 64 * 2px;
         color: var(--text-color-white);
         background: var(--theme-color-blue);
+
+        > svg {
+          width: 48px;
+          height: 48px;
+        }
       }
 
       &.zero {

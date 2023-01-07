@@ -2,20 +2,22 @@
   <Layout>
     <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type" />
     <div v-if="groupedList.length > 0" class="export"></div>
-    <ol v-if="groupedList.length > 0" class="bill">
-      <li v-for="(group, index) in groupedList" :key="index" class="oneDay">
-        <h3 class="title">
-          {{ beautify(group.title) }} <span>￥{{ group.total }}</span>
-        </h3>
-        <ol>
-          <li v-for="item in group.items" :key="item.id" class="record">
-            <span>{{ tagString(item.tags) }}</span>
-            <span class="trade-notes">{{ item.notes }}</span>
-            <span>￥{{ item.amount }} </span>
-          </li>
-        </ol>
-      </li>
-    </ol>
+    <div v-if="groupedList.length > 0" class="bill">
+      <ol>
+        <li v-for="(group, index) in groupedList" :key="index" class="oneDay">
+          <h3 class="title">
+            {{ beautify(group.title) }} <span class="amount">￥{{ group.total }}</span>
+          </h3>
+          <ol>
+            <li v-for="item in group.items" :key="item.id" class="record">
+              <div>{{ tagString(item.tags) }}</div>
+              <div class="remark">{{ item.notes }}</div>
+              <div>{{ item.amount }}</div>
+            </li>
+          </ol>
+        </li>
+      </ol>
+    </div>
     <div v-else>
       <div class="noResult">
         <Icon name="note" />
@@ -112,6 +114,71 @@ export default class Statistics extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.export {
+  width: calc(100% - 16px);
+  height: 10px;
+  margin: 16px 8px 0;
+  border-radius: var(--border-radius);
+  background: var(--text-color-black);
+}
+
+.bill {
+  width: calc(100% - 32px);
+  margin-top: -5px;
+  margin-left: 16px;
+  border-radius: 0 0 var(--border-radius) var(--border-radius);
+  background: var(--bg-color-white);
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
+
+  .oneDay:not(:last-child) {
+    border-bottom: 1px dashed var(--button-border-color);
+  }
+
+  .title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+    line-height: 24px;
+  }
+
+  .amount {
+    font-weight: bold;
+    color: var(--theme-color-blue);
+  }
+
+  .record {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+    line-height: 24px;
+    background: var(--bg-color-white);
+
+    .remark {
+      text-align: center;
+      color: var(--text-color-muted);
+    }
+  }
+}
+
+.button-wrapper {
+  padding: 16px;
+  margin-top: 16px;
+
+  > .createRecord {
+    width: 100%;
+    height: var(--button-height);
+    padding: 8px 16px;
+    font-size: var(--button-font-size);
+    text-align: center;
+    border: none;
+    border-radius: var(--border-radius);
+    color: var(--button-text);
+    background: var(--button-bg-normal);
+  }
+}
+
 .noResult {
   display: flex;
   flex-direction: column;
@@ -129,66 +196,5 @@ export default class Statistics extends Vue {
     font-size: 20px;
     color: var(--text-color-muted);
   }
-}
-
-.export {
-  width: calc(100% - 16px);
-  height: 10px;
-  margin: 16px 8px 0;
-  border-radius: var(--border-radius);
-  background: var(--text-color-black);
-}
-
-.bill {
-  width: calc(100% - 32px);
-  margin-top: -5px;
-  margin-left: 16px;
-  border-radius: 0 0 var(--border-radius) var(--border-radius);
-  background: var(--bg-color-white);
-  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
-}
-
-.button-wrapper {
-  padding: 16px;
-  margin-top: 16px;
-}
-
-.createRecord {
-  width: 100%;
-  height: var(--button-height);
-  padding: 8px 16px;
-  font-size: var(--button-font-size);
-  text-align: center;
-  border: none;
-  border-radius: var(--border-radius);
-  color: var(--button-text);
-  background: var(--button-bg-normal);
-}
-
-%item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 16px;
-  line-height: 24px;
-}
-
-.oneDay:not(:last-child) {
-  border-bottom: 1px dashed var(--button-border-color);
-}
-
-.title {
-  @extend %item;
-}
-
-.trade-notes {
-  margin-right: auto;
-  margin-left: 16px;
-  color: var(--text-color-black);
-}
-
-.record {
-  @extend %item;
-  background: var(--bg-color-white);
 }
 </style>
