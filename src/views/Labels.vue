@@ -2,26 +2,24 @@
   <Layout>
     <div class="tags">
       <router-link class="tag" v-for="tag in tags" :key="tag.id" :to="`/labels/edit/${tag.id}`">
-        <span>{{ tag.name }}</span>
-        <Icon name="right"/>
+        <span class="tag-name">{{ tag.name }}</span>
+        <Icon name="right" />
       </router-link>
     </div>
-    <div class="createTag-wrapper">
-      <Button class="createTag" @click.native="createTag">新增标签</Button>
+    <div class="button-wrapper">
+      <Button @click.native="createTag">新增标签</Button>
     </div>
   </Layout>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import {Component} from 'vue-property-decorator';
-import Button from '@/components/Button.vue';
-import {mixins} from 'vue-class-component';
-import TagHelper from '@/mixins/TagHelper';
-
+import { Component } from "vue-property-decorator";
+import Button from "@/components/Button.vue";
+import { mixins } from "vue-class-component";
+import TagHelper from "@/mixins/TagHelper";
 
 @Component({
-  components: {Button},
+  components: { Button },
 })
 export default class Labels extends mixins(TagHelper) {
   get tags() {
@@ -29,47 +27,41 @@ export default class Labels extends mixins(TagHelper) {
   }
 
   beforeCreate() {
-    this.$store.commit('fetchTags');
+    this.$store.commit("fetchTags");
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
-@import "~@/assets/style/helper.scss";
-
 .tags {
-  background: #ffffff;
+  margin: 16px;
   font-size: 16px;
-  padding-left: 16px;
+  font-weight: bold;
+  border-radius: var(--border-radius);
+  background: var(--bg-color-white);
 
   > .tag {
-    min-height: 44px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid #e6e6e6;
+    min-height: 44px;
+    border-bottom: 1px solid var(--split-line);
+
+    > .tag-name {
+      padding-left: 16px;
+    }
 
     svg {
       width: 18px;
       height: 18px;
-      color: #666;
       margin-right: 16px;
+      color: var(--arrow-pointing);
     }
   }
 }
 
-.createTag {
-  background: $color-highlight;
-  color: #ffffff;
-  border-radius: 4px;
-  border: none;
-  height: 40px;
-  padding: 0 16px;
-
-  &-wrapper {
-    text-align: center;
-    padding: 16px;
-    margin-top: 44-16px;
-  }
+.button-wrapper {
+  padding: 16px;
+  margin-top: 16px;
 }
 </style>

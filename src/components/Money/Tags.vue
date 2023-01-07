@@ -1,15 +1,19 @@
 <template>
   <div class="tags">
     <ul class="current">
-      <li v-for="tag in tagList" :key="tag.id" :class="{selected: selectedTags.indexOf(tag) >= 0}"
-          @click="toggle(tag)">
+      <li
+        v-for="tag in tagList"
+        :key="tag.id"
+        :class="{ selected: selectedTags.indexOf(tag) >= 0 }"
+        @click="toggle(tag)"
+      >
         <div class="tag-box">
           {{ tag.name }}
         </div>
       </li>
       <li>
         <button class="new-tag" @click="createTag">
-          <Icon name="others"/>
+          <Icon name="others" />
         </button>
       </li>
     </ul>
@@ -17,11 +21,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import {Component, Prop} from 'vue-property-decorator';
-import {mixins} from 'vue-class-component';
-import TagHelper from '@/mixins/TagHelper';
-
+import Vue from "vue";
+import { Component, Prop } from "vue-property-decorator";
+import { mixins } from "vue-class-component";
+import TagHelper from "@/mixins/TagHelper";
 
 @Component
 export default class Tags extends mixins(TagHelper) {
@@ -32,7 +35,7 @@ export default class Tags extends mixins(TagHelper) {
   }
 
   created() {
-    this.$store.commit('fetchTags');
+    this.$store.commit("fetchTags");
   }
 
   toggle(tag: string) {
@@ -45,53 +48,51 @@ export default class Tags extends mixins(TagHelper) {
       }
       this.selectedTags.push(tag);
     }
-    this.$emit('update:value', this.selectedTags);
+    this.$emit("update:value", this.selectedTags);
   }
 }
 </script>
 
 <style lang="scss" scoped>
-@import "~@/assets/style/helper.scss";
-
 .tags {
-  order: 3;
+  order: 2;
+  position: relative;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  background: #ffffff;
   padding: 0 16px;
-  position: relative;
+  background: var(--bg-color-grey);
 
   > .current {
-    order: 2;
     display: flex;
     flex-wrap: wrap;
-    overflow: auto;
     margin-right: -16px;
+    overflow: auto;
 
     > li {
-      width: 25%;
-      margin-top: 10px;
       display: flex;
       justify-content: center;
+      width: 25%;
+      margin-top: 10px;
 
       .tag-box {
-        background: #F1F1F1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        white-space: nowrap;
         width: 100%;
         height: 32px;
-        line-height: 32px;
-        font-size: 14px;
-        border-radius: 4px;
-        white-space: nowrap;
-        text-align: center;
         margin-right: 16px;
-        box-sizing: border-box;
+        font-size: 14px;
+        border-radius: var(--border-radius);
+        background: var(--bg-color-white);
       }
 
       &.selected {
         .tag-box {
-          background: $color-highlight;
-          color: #ffffff;
+          color: var(--text-color-white);
+          border: 2px solid var(--tag-selected-border);
+          background: var(--tag-selected-bg);
         }
       }
     }
@@ -102,8 +103,8 @@ export default class Tags extends mixins(TagHelper) {
       margin-left: 0;
       margin-right: 16px;
       border-style: none;
-      border-radius: 4px;
-      background: #F1F1F1;
+      border-radius: var(--border-radius);
+      background: var(--tag-bg);
     }
   }
 }

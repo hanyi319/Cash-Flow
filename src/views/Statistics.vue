@@ -1,44 +1,44 @@
 <template>
   <Layout>
-    <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
-    <div class="chartBox">
-      <span>支出趋势</span>
+    <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type" />
+    <div class="line-chart">
+      <span class="title">支出趋势</span>
       <div class="chart-wrapper" ref="chartWrapper">
-        <Chart class-prefix="chart" :options="lineChartOption"/>
+        <Chart class-prefix="chart" :options="lineChartOption" />
       </div>
     </div>
-    <div class="chartBox">
-      <span>支出构成</span>
-      <Chart :options="pieChartOption"/>
+    <div class="pie-chart">
+      <span class="title">支出构成</span>
+      <Chart :options="pieChartOption" />
     </div>
-    <div class="chartBox">
-      <span>支出对比</span>
-      <Chart :options="barChartOption"/>
+    <div class="bar-chart">
+      <span class="title">支出对比</span>
+      <Chart :options="barChartOption" />
     </div>
   </Layout>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import {Component} from 'vue-property-decorator';
-import Tabs from '@/components/Tabs.vue';
-import recordTypeList from '@/constants/recordTypeList';
-import dayjs from 'dayjs';
-import clone from '@/lib/clone';
-import VChart, {THEME_KEY} from 'vue-echarts';
-import {use} from 'echarts/core';
-import {CanvasRenderer} from 'echarts/renderers';
-import {PieChart} from 'echarts/charts';
-import {BarChart} from 'echarts/charts';
+import Vue from "vue";
+import { Component } from "vue-property-decorator";
+import Tabs from "@/components/Tabs.vue";
+import recordTypeList from "@/constants/recordTypeList";
+import dayjs from "dayjs";
+import clone from "@/lib/clone";
+import VChart, { THEME_KEY } from "vue-echarts";
+import { use } from "echarts/core";
+import { CanvasRenderer } from "echarts/renderers";
+import { PieChart } from "echarts/charts";
+import { BarChart } from "echarts/charts";
 import {
   TitleComponent,
   TooltipComponent,
   LegendComponent,
-  GridComponent
-} from 'echarts/components';
-import Chart from '@/components/Chart.vue';
-import _ from 'lodash';
-import day from 'dayjs';
+  GridComponent,
+} from "echarts/components";
+import Chart from "@/components/Chart.vue";
+import _ from "lodash";
+import day from "dayjs";
 
 use([
   CanvasRenderer,
@@ -47,11 +47,11 @@ use([
   TitleComponent,
   TooltipComponent,
   LegendComponent,
-  GridComponent
+  GridComponent,
 ]);
 
 @Component({
-  components: {Tabs, VChart, Chart},
+  components: { Tabs, VChart, Chart },
 })
 export default class Statistics extends Vue {
   // 获取折线图最近一个月的支出数据
@@ -59,9 +59,9 @@ export default class Statistics extends Vue {
     const today = new Date();
     const array = [];
     for (let i = 0; i <= 29; i++) {
-      const dateString = day(today).subtract(i, 'day').format('YYYY-MM-DD');
-      const found = _.find(this.groupedList, {title: dateString});
-      array.push({key: dateString, value: found ? found.total : 0});
+      const dateString = day(today).subtract(i, "day").format("YYYY-MM-DD");
+      const found = _.find(this.groupedList, { title: dateString });
+      array.push({ key: dateString, value: found ? found.total : 0 });
     }
     array.sort((a, b) => {
       if (a.key > b.key) {
@@ -77,51 +77,51 @@ export default class Statistics extends Vue {
 
   // 折线图配置选项
   get lineChartOption() {
-    const keys = this.lineKeyValueList.map(item => item.key);
-    const values = this.lineKeyValueList.map(item => item.value);
+    const keys = this.lineKeyValueList.map((item) => item.key);
+    const values = this.lineKeyValueList.map((item) => item.value);
     return {
       title: {
-        left: 'center'
+        left: "center",
       },
       tooltip: {
         show: true,
-        formatter: '{b}日<br/>￥{c}',
-        position: 'top'
+        formatter: "{b}日<br/>￥{c}",
+        position: "top",
       },
       grid: {
         left: 48,
         top: 48,
         right: 16,
-        bottom: 32
+        bottom: 32,
       },
       xAxis: {
-        type: 'category',
+        type: "category",
         data: keys,
-        axisTick: {alignWithLabel: true},
-        axisLine: {lineStyle: {color: '#666'}},
+        axisTick: { alignWithLabel: true },
+        axisLine: { lineStyle: { color: "#666" } },
         axisLabel: {
           formatter: function (value: string, index: number) {
             let date = new Date(value);
-            let texts = [(date.getMonth() + 1), date.getDate()];
+            let texts = [date.getMonth() + 1, date.getDate()];
             if (index === 0) {
               texts.unshift(date.getFullYear());
             }
-            return texts.join('/');
-          }
-        }
+            return texts.join("/");
+          },
+        },
       },
       yAxis: {
-        type: 'value'
+        type: "value",
       },
       series: [
         {
           symbolSize: 15,
-          itemStyle: {color: '#42b883'},
+          itemStyle: { color: "#42b883" },
           data: values,
-          type: 'line',
-          smooth: true
-        }
-      ]
+          type: "line",
+          smooth: true,
+        },
+      ],
     };
   }
 
@@ -135,10 +135,9 @@ export default class Statistics extends Vue {
     const today = new Date();
 
     for (let i = 0; i <= 29; i++) {
-
       // 格式化时间字符串，以便根据时间字符串搜索该天对应的支出数据
-      const dateString = day(today).subtract(i, 'day').format('YYYY-MM-DD');
-      const found = _.find(this.groupedList, {title: dateString});
+      const dateString = day(today).subtract(i, "day").format("YYYY-MM-DD");
+      const found = _.find(this.groupedList, { title: dateString });
 
       // 如果这一天不为空，那么就根据标签分门别类统计金额
       if (found) {
@@ -153,7 +152,7 @@ export default class Statistics extends Vue {
     // 遍历哈希表生成数组
     function transform(value: number, key: string, map: object) {
       let name = key;
-      array.push({value, name});
+      array.push({ value, name });
     }
 
     map.forEach(transform);
@@ -167,41 +166,41 @@ export default class Statistics extends Vue {
 
     return {
       tooltip: {
-        trigger: 'item'
+        trigger: "item",
       },
       legend: {
-        top: '5%',
-        left: 'center'
+        top: "5%",
+        left: "center",
       },
       series: [
         {
-          name: '金额',
-          type: 'pie',
-          radius: ['40%', '70%'],
+          name: "金额",
+          type: "pie",
+          radius: ["40%", "70%"],
           avoidLabelOverlap: false,
           itemStyle: {
             borderRadius: 10,
-            borderColor: '#fff',
-            borderWidth: 2
+            borderColor: "#fff",
+            borderWidth: 2,
           },
           label: {
             show: false,
-            position: 'center'
+            position: "center",
           },
           emphasis: {
             label: {
               show: true,
-              fontSize: '40',
-              fontWeight: 'bold'
-            }
+              fontSize: "40",
+              fontWeight: "bold",
+            },
           },
           labelLine: {
-            show: false
+            show: false,
           },
           top: 50,
-          data: array
-        }
-      ]
+          data: array,
+        },
+      ],
     };
   }
 
@@ -209,8 +208,8 @@ export default class Statistics extends Vue {
   get barKeyValueList() {
     // 用来存放标签以及对应的金额的哈希表和数组
     const map = new Map();
-    const arrayX:string[] = [];
-    const arrayY:number[] = [];
+    const arrayX: string[] = [];
+    const arrayY: number[] = [];
     const array = [];
 
     const today = new Date();
@@ -218,20 +217,20 @@ export default class Statistics extends Vue {
     for (let i = 0; i <= 11; i++) {
       for (let j = i * 31; j <= (i + 1) * 31; j++) {
         // 格式化时间字符串，以便根据时间字符串搜索该天对应的支出数据
-        const dateString = day(today).subtract(j, 'day').format('YYYY-MM-DD');
-        const found = _.find(this.groupedList, {title: dateString});
+        const dateString = day(today).subtract(j, "day").format("YYYY-MM-DD");
+        const found = _.find(this.groupedList, { title: dateString });
         const foundDate = found?.title.substring(0, 7);
 
         // 如果这一天不为空，那么就根据月份统计金额
         if (found && found.total !== 0) {
-          if(!map.has(foundDate)) {
+          if (!map.has(foundDate)) {
             map.set(foundDate, 0);
           }
           let temp = map.get(foundDate);
           temp += found.total;
           map.set(foundDate, temp);
 
-          console.log('map');
+          console.log("map");
           console.log(map);
         }
       }
@@ -255,26 +254,26 @@ export default class Statistics extends Vue {
 
     return {
       xAxis: {
-        type: 'category',
+        type: "category",
         data: array[0],
-        inverse: true
+        inverse: true,
       },
       yAxis: {
-        type: 'value'
+        type: "value",
       },
       grid: {
         left: 48,
         top: 48,
         right: 16,
-        bottom: 32
+        bottom: 32,
       },
       series: [
         {
           data: array[1],
-          type: 'bar'
-        }
-      ]
-    }
+          type: "bar",
+        },
+      ],
+    };
   }
 
   get recordList() {
@@ -282,70 +281,85 @@ export default class Statistics extends Vue {
   }
 
   get groupedList() {
-    const {recordList} = this;
-    const newList = clone(recordList).filter(r => r.type === this.type).sort((a, b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
+    const { recordList } = this;
+    const newList = clone(recordList)
+      .filter((r) => r.type === this.type)
+      .sort((a, b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
 
-    if (newList.length === 0) { return [];}
+    if (newList.length === 0) {
+      return [];
+    }
 
-    type Result = { title: string, total?: number, items: RecordItem[] }[]
-    const result: Result = [{title: dayjs(recordList[0].createdAt).format('YYYY-MM-DD'), items: [newList[0]]}];
+    type Result = { title: string; total?: number; items: RecordItem[] }[];
+    const result: Result = [
+      { title: dayjs(recordList[0].createdAt).format("YYYY-MM-DD"), items: [newList[0]] },
+    ];
     for (let i = 1; i < newList.length; i++) {
       const current = newList[i];
       const last = result[result.length - 1];
-      if (dayjs(last.title).isSame(dayjs(current.createdAt), 'day')) {
+      if (dayjs(last.title).isSame(dayjs(current.createdAt), "day")) {
         last.items.push(current);
       } else {
-        result.push({title: dayjs(current.createdAt).format('YYYY-MM-DD'), items: [current]});
+        result.push({ title: dayjs(current.createdAt).format("YYYY-MM-DD"), items: [current] });
       }
     }
-    result.map(group => {group.total = group.items.reduce((sum, item) => sum + item.amount, 0);});
+    result.map((group) => {
+      group.total = group.items.reduce((sum, item) => sum + item.amount, 0);
+    });
     return result;
   }
 
   beforeCreate() {
-    this.$store.commit('fetchRecords');
+    this.$store.commit("fetchRecords");
   }
 
   mounted() {
-    let div = (this.$refs.chartWrapper as HTMLDivElement);
+    let div = this.$refs.chartWrapper as HTMLDivElement;
     div.scrollLeft = div.scrollWidth;
   }
 
-  type = '-';
+  type = "-";
   recordTypeList = recordTypeList;
-};
+}
 </script>
 
 <style lang="scss" scoped>
-@import "~@/assets/style/helper.scss";
-.chartBox {
-  background: #ffffff;
-  margin: 16px 0;
-  border-radius: 4px;
-  text-align: center;
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  padding-left: 16px;
+}
+
+.line-chart {
   padding-top: 16px;
+  margin-bottom: 16px;
+  background: var(--bg-color-white);
 
-  span {
-    font-size: 24px;
-    font-weight: bold;
+  > .chart {
+    max-width: 100%;
+  }
 
+  ::v-deep .chart-content {
+    width: 415%;
+  }
+
+  > .chart-wrapper {
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 }
 
-.chart {
-  max-width: 100%;
-  height: 400px;
+.pie-chart {
+  padding-top: 16px;
+  margin-bottom: 16px;
+  background: var(--bg-color-white);
 }
 
-::v-deep .chart-content {
-  width: 415%;
-}
-
-.chart-wrapper {
-  overflow: auto;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
+.bar-chart {
+  padding-top: 16px;
+  background: var(--bg-color-white);
 }
 </style>

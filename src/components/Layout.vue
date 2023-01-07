@@ -1,16 +1,20 @@
 <template>
   <div class="layout-wrapper" :class="classPrefix && `${classPrefix}-wrapper`">
-    <div class="content" :class="classPrefix && `${classPrefix}-content`">
-      <slot/>
+    <div class="logo">
+      <Icon name="logo" />
+      <span class="app-name">点滴记账简洁版</span>
     </div>
-    <Nav/>
+    <div class="content" :class="classPrefix && `${classPrefix}-content`">
+      <slot />
+    </div>
+    <Nav />
   </div>
 </template>
 
 <script lang="ts">
 export default {
-  props: ['classPrefix'],
-  name: 'Layout'
+  props: ["classPrefix"],
+  name: "Layout",
 };
 </script>
 
@@ -21,9 +25,21 @@ export default {
   height: 100vh;
 }
 
+.logo {
+  padding-top: var(--top-safe-area-height);
+  font-size: 24px;
+  font-weight: bold;
+  padding-left: 20px;
+  background: var(--bg-color-grey);
+
+  > .app-name {
+    padding-left: 8px;
+  }
+}
+
 .content {
   overflow: auto;
   flex-grow: 1;
-  background: #f5f5f5;
+  background: var(--bg-color-grey);
 }
 </style>

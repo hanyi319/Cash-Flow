@@ -1,0 +1,31 @@
+:root {
+  --theme-color-blue: #0081fa;
+  --theme-color-green: #00d09c;
+  --theme-color-red: #ff585d;
+  --theme-color-yellow: #ffb61b;
+  --theme-color-pink: #f360f3;
+  --bg-color-grey: #edeff3;
+  --bg-color-white: #ffffff;
+  --text-color-black: #1c2b33;
+  --text-color-white: #ffffff;
+  --text-color-muted: #7c7e8c;
+  --top-safe-area-height: 40px;
+  --border-radius: 10px;
+  --split-line: #e6e6e6;
+  --arrow-pointing: #333;
+  --button-font-size: 18px;
+  --button-radius: 10px;
+  --button-height: 48px;
+  --button-text: var(--text-color-white);
+  --button-border-color: #7c7e8c;
+  --button-active: #f6f7f9;
+  --button-bg-normal: var(--theme-color-blue);
+  --button-bg-important: var(--theme-color-yellow);
+  --button-bg-danger: var(--theme-color-red);
+  --tag-bg: var(--bg-color-white);
+  --tag-selected-bg: #77b8f7;
+  --tag-selected-border: var(--theme-color-blue);
+  --numberPad-text: var(--text-color-black);
+  --numberPad-border: var(--bg-color-grey);
+  --numberPad-button-bg: var(--bg-color-white);
+}

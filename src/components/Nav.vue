@@ -1,19 +1,19 @@
 <template>
   <nav>
     <router-link to="/money" class="item" active-class="selected">
-      <Icon name="editor"/>
+      <Icon name="editor" />
       记账
     </router-link>
     <router-link to="/details" class="item" active-class="selected">
-      <Icon name="money"/>
+      <Icon name="money" />
       明细
     </router-link>
     <router-link to="/statistics" class="item" active-class="selected">
-      <Icon name="statistics"/>
+      <Icon name="statistics" />
       统计
     </router-link>
     <router-link to="/labels" class="item" active-class="selected">
-      <Icon name="label"/>
+      <Icon name="label" />
       标签
     </router-link>
   </nav>
@@ -21,29 +21,28 @@
 
 <script lang="ts">
 export default {
-  name: 'Nav'
+  name: "Nav",
 };
 </script>
 
 <style lang="scss" scoped>
-@import "~@/assets/style/helper.scss";
-
 nav {
-  @extend %outerShadow;
-  padding: 0;
   display: flex;
   flex-direction: row;
-  font-size: 12px;
+  padding: 0;
+  font-size: 14px;
   font-weight: bold;
-  color: #2c3e50;
+  color: var(--text-color-black);
+  background: var(--bg-color-grey);
+  box-shadow: 0 -3px 3px rgba(0, 0, 0, 0.1);
 
   > .item {
-    padding: 10px 0;
-    width: 33.33333%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 33.33333%;
+    padding: 10px 0;
 
     .icon {
       width: 32px;
@@ -52,7 +51,7 @@ nav {
   }
 
   > .item.selected {
-    color: $color-highlight;
+    color: var(--theme-color-blue);
   }
 }
 </style>

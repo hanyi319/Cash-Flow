@@ -1,23 +1,12 @@
 <template>
   <div class="numberPad">
-    <div class="output">
-      <div>
-        <Icon name="rmb"/>
-      </div>
-      <div>
-        {{ output || '&nbsp;' }}
-      </div>
-    </div>
+    <div class="output">￥{{ output || "&nbsp;" }}</div>
     <div class="buttons">
-      <button @click="inputContent">+</button>
-      <button @click="inputContent">-</button>
-      <button @click="inputContent">×</button>
-      <button @click="inputContent">÷</button>
       <button @click="inputContent">1</button>
       <button @click="inputContent">2</button>
       <button @click="inputContent">3</button>
       <button @click="remove">
-        <Icon name="delete"/>
+        <Icon name="delete" />
       </button>
       <button @click="inputContent">4</button>
       <button @click="inputContent">5</button>
@@ -27,7 +16,6 @@
       <button @click="inputContent">8</button>
       <button @click="inputContent">9</button>
       <button @click="ok" class="ok">OK</button>
-      <button @click="inputContent">()</button>
       <button @click="inputContent" class="zero">0</button>
       <button @click="inputContent">.</button>
     </div>
@@ -35,98 +23,99 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import {Component, Prop} from 'vue-property-decorator';
+import Vue from "vue";
+import { Component, Prop } from "vue-property-decorator";
 
 @Component
 export default class NumberPad extends Vue {
-  output: string = '0';
+  output: string = "0";
 
   inputContent(event: MouseEvent) {
-    const button = (event.target as HTMLButtonElement);
+    const button = event.target as HTMLButtonElement;
     const input = button.textContent as string;
-    if (this.output.length === 16) { return; }
-    if (this.output === '0') {
-      if ('0123456789'.indexOf(input) >= 0) {
+    if (this.output.length === 16) {
+      return;
+    }
+    if (this.output === "0") {
+      if ("0123456789".indexOf(input) >= 0) {
         this.output = input;
       } else {
         this.output += input;
       }
       return;
     }
-    if (this.output.indexOf('.') >= 0 && input === '.') { return; }
+    if (this.output.indexOf(".") >= 0 && input === ".") {
+      return;
+    }
     this.output += input;
   }
 
   remove() {
     if (this.output.length === 1) {
-      this.output = '0';
+      this.output = "0";
     } else {
       this.output = this.output.slice(0, -1);
     }
   }
 
   clear() {
-    this.output = '0';
+    this.output = "0";
   }
 
   ok() {
     const number = parseFloat(this.output);
-    this.$emit('update:value', number);
-    this.$emit('submit', number);
-    this.output = '0';
+    this.$emit("update:value", number);
+    this.$emit("submit", number);
+    this.output = "0";
   }
 }
 </script>
 
 <style lang="scss" scoped>
-@import "~@/assets/style/helper.scss";
-
 .numberPad {
-  order: 1;
+  order: 5;
+  margin-bottom: 4px;
 
   .output {
-    @extend %clearFix;
-    @extend %innerShadow;
-    font-family: Consolas, monospace;
-    font-size: 40px;
-    font-weight: bold;
-    height: 72px;
-    line-height: 60px;
-    text-align: left;
-    background: #ffffff;
+    position: relative;
     display: flex;
     align-items: center;
-    position: relative;
-    padding-left: 48px;
-
-    .icon {
-      position: absolute;
-      top: 16px;
-      left: 16px;
-      width: 30px;
-    }
+    text-align: left;
+    height: 72px;
+    margin: 0 8px;
+    padding: 10px;
+    line-height: 60px;
+    font-size: 40px;
+    font-weight: bold;
+    border: 4px solid var(--inputPad-button-border);
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+    background: var(--bg-color-white);
   }
 
   .buttons {
-    @extend %clearFix;
-    background: #f1f1f1;
+    margin: 4px;
+    background: var(--bg-color-grey);
 
     > button {
+      float: left;
       width: 25%;
       height: 64px;
-      border-radius: 10px;
-      float: left;
       font-size: 24px;
       font-weight: bold;
-      background: #ffffff;
-      border: 4px solid #f1f1f1;
+      border: 4px solid var(--numberPad-border);
+      border-radius: var(--border-radius);
+      color: var(--numberPad-text);
+      background: var(--numberPad-button-bg);
 
       &.ok {
-        background: $color-highlight;
-        color: #ffffff;
-        height: 64*2px;
         float: right;
+        height: 64 * 2px;
+        color: var(--text-color-white);
+        background: var(--theme-color-blue);
+      }
+
+      &.zero {
+        width: 25 * 2%;
       }
     }
   }
