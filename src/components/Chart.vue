@@ -31,6 +31,6 @@ export default class Chart extends Vue {
 
 <style lang="scss" scoped>
 .wrapper {
-  height: 30vh;
+  height: 300px;
 }
 </style>

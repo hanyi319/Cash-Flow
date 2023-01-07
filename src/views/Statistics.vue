@@ -2,17 +2,17 @@
   <Layout>
     <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type" />
     <div class="line-chart">
-      <span class="title">支出趋势</span>
+      <span class="title">交易趋势</span>
       <div class="chart-wrapper" ref="chartWrapper">
         <Chart class-prefix="chart" :options="lineChartOption" />
       </div>
     </div>
     <div class="pie-chart">
-      <span class="title">支出构成</span>
+      <span class="title">交易构成</span>
       <Chart :options="pieChartOption" />
     </div>
     <div class="bar-chart">
-      <span class="title">支出对比</span>
+      <span class="title">交易对比</span>
       <Chart :options="barChartOption" />
     </div>
   </Layout>
@@ -85,7 +85,8 @@ export default class Statistics extends Vue {
       },
       tooltip: {
         show: true,
-        formatter: "{b}日<br/>￥{c}",
+        trigger: "axis",
+        formatter: "{b}<br/>￥{c}",
         position: "top",
       },
       grid: {
@@ -108,18 +109,52 @@ export default class Statistics extends Vue {
             }
             return texts.join("/");
           },
+          interval: 0,
+        },
+        axisPointer: {
+          snap: true,
         },
       },
       yAxis: {
         type: "value",
+        splitLine: {
+          show: true,
+          lineStyle: {
+            type: "dashed",
+          },
+        },
       },
       series: [
         {
-          symbolSize: 15,
-          itemStyle: { color: "#42b883" },
           data: values,
           type: "line",
           smooth: true,
+          itemStyle: { color: "#0081fa" },
+          areaStyle: {
+            color: {
+              /**
+               * 线性渐变
+               * 前四个参数分别是 x0, y0, x2, y2, 范围从 0 - 1，相当于在图形包围盒中的百分比
+               * 如果 globalCoord 为 `true`，则该四个值是绝对的像素位置
+               */
+              type: "linear",
+              x: 0,
+              y: 0,
+              x2: 0,
+              y2: 1,
+              colorStops: [
+                {
+                  offset: 0,
+                  color: "#0081fa", // 0% 处的颜色
+                },
+                {
+                  offset: 1,
+                  color: "#ffffff", // 100% 处的颜色
+                },
+              ],
+              global: false, // 缺省为 false
+            },
+          },
         },
       ],
     };
@@ -253,6 +288,12 @@ export default class Statistics extends Vue {
     const array = this.barKeyValueList;
 
     return {
+      tooltip: {
+        show: true,
+        trigger: "axis",
+        formatter: "{b}<br/>￥{c}",
+        position: "top",
+      },
       xAxis: {
         type: "category",
         data: array[0],
@@ -260,6 +301,12 @@ export default class Statistics extends Vue {
       },
       yAxis: {
         type: "value",
+        splitLine: {
+          show: true,
+          lineStyle: {
+            type: "dashed",
+          },
+        },
       },
       grid: {
         left: 48,
@@ -271,6 +318,27 @@ export default class Statistics extends Vue {
         {
           data: array[1],
           type: "bar",
+          barWidth: 30,
+          itemStyle: {
+            color: {
+              type: "bar",
+              x: 0,
+              y: 0,
+              x2: 0,
+              y2: 1,
+              colorStops: [
+                {
+                  offset: 0,
+                  color: "#0081fa",
+                },
+                {
+                  offset: 1,
+                  color: "#ffffff",
+                },
+              ],
+              global: false,
+            },
+          },
         },
       ],
     };
