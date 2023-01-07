@@ -46,6 +46,7 @@ export default class Labels extends mixins(TagHelper) {
     justify-content: space-between;
     min-height: 44px;
     border-bottom: 1px solid var(--split-line);
+    transition: transform 0.2s cubic-bezier(0.68, 0.01, 0.62, 0.6);
 
     > .tag-name {
       padding-left: 16px;
@@ -57,6 +58,10 @@ export default class Labels extends mixins(TagHelper) {
       margin-right: 16px;
       color: var(--arrow-pointing);
     }
+  }
+
+  > .tag:active {
+    transform: scale(0.95);
   }
 }
 

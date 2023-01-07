@@ -23,5 +23,11 @@ export default class Button extends Vue {}
   border-radius: var(--border-radius);
   color: var(--button-text);
   background: var(--button-bg-normal);
+  transition: transform 0.2s cubic-bezier(0.68, 0.01, 0.62, 0.6), opacity 0.08s linear;
+}
+
+.button:active {
+  transform: scale(0.95);
+  opacity: 0.5;
 }
 </style>

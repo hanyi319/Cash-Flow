@@ -93,6 +93,11 @@ export default class Tags extends mixins(TagHelper) {
           color: var(--text-color-white);
           border: 2px solid var(--tag-selected-border);
           background: var(--tag-selected-bg);
+          transition: transform 0.2s cubic-bezier(0.68, 0.01, 0.62, 0.6);
+        }
+
+        .tag-box:active {
+          transform: scale(0.95);
         }
       }
     }

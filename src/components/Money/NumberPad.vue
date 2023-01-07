@@ -106,6 +106,7 @@ export default class NumberPad extends Vue {
       border-radius: var(--border-radius);
       color: var(--numberPad-text);
       background: var(--numberPad-button-bg);
+      transition: transform 0.2s cubic-bezier(0.68, 0.01, 0.62, 0.6), opacity 0.08s linear;
 
       &.ok {
         float: right;
@@ -117,6 +118,11 @@ export default class NumberPad extends Vue {
       &.zero {
         width: 25 * 2%;
       }
+    }
+
+    > button:active {
+      transform: scale(0.95);
+      opacity: 0.5;
     }
   }
 }
